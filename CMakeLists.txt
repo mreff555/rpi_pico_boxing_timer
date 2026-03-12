@@ -15,7 +15,9 @@ project(test_project C CXX ASM)
 
 pico_sdk_init()
 
-add_executable(test_project main.cpp)
+add_executable(test_project
+                main.cpp
+                lcd.cpp)
 
 target_link_libraries(test_project
     pico_stdlib
