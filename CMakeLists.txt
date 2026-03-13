@@ -15,14 +15,20 @@ project(test_project C CXX ASM)
 
 pico_sdk_init()
 
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
 add_executable(test_project
-                main.cpp
-                lcd.cpp)
+                src/main.cpp
+                src/lcd.cpp
+                src/button.cpp)
+
+pico_generate_pio_header(test_project ${CMAKE_CURRENT_LIST_DIR}/src/button.pio)
 
 target_link_libraries(test_project
     pico_stdlib
     hardware_i2c
     hardware_rtc
+    hardware_pio
 )
 
 pico_add_extra_outputs(test_project)

@@ -5,7 +5,7 @@
  */
 
  #include "lcd.h"
-
+#include "button.h"
 #include <stdio.h>
 #include <string.h>
 #include "pico/stdlib.h"
@@ -16,6 +16,8 @@
 #include "pico/util/datetime.h"
 
 #include <string>
+
+bool terminate = false;
 
 // I don't care about the date.  This is just a starting point for the clock.
 datetime_t t = {
@@ -28,7 +30,7 @@ datetime_t t = {
     .sec   = 0
 };
 
-int round = 1;
+int match_round = 1;
 
 enum class State
 {
@@ -107,7 +109,16 @@ int main() {
     lcd_init();
     rtc_init();
     rtc_set_datetime(&t);
+    
+    //  Set up a UART instance with default parameters.
+    setup_default_uart();
     sleep_us(64);
+
+    // Initialize PIO for buttons
+    PIO buttonPio = pio0;
+
+    Button startButton((PIO)pio0, 10, "Start Button");
+    Button resetButton((PIO)pio1, 11, "Reset Button");
 
     lcd_clear();
     current_state = State::STOPPED;
@@ -130,7 +141,7 @@ int main() {
                 }
                 else if(is_reset_button_pressed())
                 {
-                    round = 1;
+                    match_round = 1;
                     current_state = State::COOLDOWN;
                     set_alarm_for_cooldown();
                 }

@@ -3,7 +3,7 @@
         {
             "name": "Mac",
             "includePath": [
-                "${default},/Users/mreff555/src/pi/pico/pico-sdk"
+                "${default},/Users/mreff555/src/pi/pico/pico-sdk,/Users/mreff555/src/pi/pico/pico-sdk/src/rp2_common/hardware_pio/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",
